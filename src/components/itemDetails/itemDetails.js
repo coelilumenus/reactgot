@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './charDetails.css';
+import './itemDetails.css';
 import gotService from '../../services/gotService';
 
-const Field = ({ item, field, label }) => {
+export const Field = ({ item, field, label }) => {
     return (
         <li className="list-group-item d-flex justify-content-between">
             <span className="term">{label}</span>
@@ -11,10 +11,7 @@ const Field = ({ item, field, label }) => {
     )
 }
 
-export {
-    Field
-}
-export default class CharDetails extends Component {
+export class ItemDetails extends Component {
 
     gotService = new gotService();
 
@@ -23,22 +20,22 @@ export default class CharDetails extends Component {
     }
 
     componentDidMount() {
-        this.updateChar();
+        this.updateItem();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateChar();
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem();
         }
     }
 
-    updateChar() {
-        const { charId } = this.props;
-        if (!charId) {
+    updateItem() {
+        const { itemId, getData } = this.props;
+        if (!itemId) {
             return;
         }
 
-        this.gotService.getCharacter(charId)
+        getData(itemId)
             .then((item) => {
                 this.setState({ item })
             })
