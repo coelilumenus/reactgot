@@ -6,12 +6,13 @@ import ToggleRandomChar from '../toggleRandomChar';
 import ErrorMessage from '../errorMessage';
 import { CharacterPage, BooksPage, HousePage } from '../pages';
 import gotService from '../../services/gotService';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 export default class App extends Component {
-    
+
     gotService = new gotService();
-    
+
     state = {
         isShowRC: true,
         error: false
@@ -42,22 +43,25 @@ export default class App extends Component {
         }
 
         return (
-            <>
-                <Container>
-                    <Header />
-                </Container>
-                <Container>
-                    <Row>
-                        <Col lg={{ size: 5, offset: 0 }}>
-                            {randomChar}
-                            <ToggleRandomChar toggleRandomChar={this.toggleRandomChar} />
-                        </Col>
-                    </Row>
-                    <CharacterPage />
-                    <BooksPage />
-                    <HousePage />
-                </Container>
-            </>
+            <Router>
+                <div className="app">
+                    <Container>
+                        <Header />
+                    </Container>
+                    <Container>
+                        <Row>
+                            <Col lg={{ size: 5, offset: 0 }}>
+                                {randomChar}
+                                <ToggleRandomChar toggleRandomChar={this.toggleRandomChar} />
+                            </Col>
+                        </Row>
+                        <Route path='/' exact component={() => <h1>Welcome to GOT DB</h1>}/>
+                        <Route path='/characters' component={CharacterPage}/>
+                        <Route path='/books' component={BooksPage}/>
+                        <Route path='/houses' component={HousePage}/>
+                    </Container>
+                </div>
+            </Router>
         );
     }
 };
